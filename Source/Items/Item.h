@@ -28,36 +28,38 @@ template<class T> struct RContainer2Item;
 class Item; struct ItemData;
 template<> struct RItem2StrucData<Item> {using type = ItemData;};
 
-template<class Item, typename STRUCTDATA> struct ItemChanger
+template<class Item, typename STRUCTDATA>
+struct BaseItemChanger
 {
-	ItemChanger(ItemChanger&& changer) {item_ = changer.item_; changer.item_ = Q_NULLPTR;}
-	ItemChanger(Item& item) : item_(&item) {item_->beforeChanging();}
-	~ItemChanger() {if (item_) item_->afterChanging();}
+	BaseItemChanger(BaseItemChanger&& changer) {item_ = changer.item_; changer.item_ = Q_NULLPTR;}
+	BaseItemChanger(Item& item) : item_(&item) {}
 
 	Item& item() {return *item_;}
 	STRUCTDATA& data() {Q_ASSERT(item_); return item_->data();}
 	STRUCTDATA* operator->() {Q_ASSERT(item_); return item_ ? &item_->data() : Q_NULLPTR;}
 
-private:
-	ItemChanger() = delete;
-	ItemChanger(const ItemChanger& ) = delete;
+protected:
+	BaseItemChanger() = delete;
+	BaseItemChanger(const BaseItemChanger& ) = delete;
 	Item* item_ = Q_NULLPTR;
 };
 
-template<class Item, typename STRUCTDATA> struct ItemStateChanger
+template<class Item, typename STRUCTDATA>
+struct ItemChanger : public BaseItemChanger<Item, STRUCTDATA>
 {
-	ItemStateChanger(ItemStateChanger&& changer) {item_ = changer.item_; changer.item_ = Q_NULLPTR;}
-	ItemStateChanger(Item& item) : item_(&item) {}
-	~ItemStateChanger() {if (item_) item_->stateChanged();}
+	using Base = BaseItemChanger<Item, STRUCTDATA>;
+	ItemChanger(ItemChanger&& changer) : Base(std::forward(changer)){}
+	ItemChanger(Item& item) : Base(item) {Base::item_->beforeChanging();}
+	~ItemChanger() {if (Base::item_) Base::item_->afterChanging();}
+};
 
-	Item& item() {return *item_;}
-	STRUCTDATA& data() {Q_ASSERT(item_); return item_->data();}
-	STRUCTDATA* operator->() {Q_ASSERT(item_); return item_ ? &item_->data() : Q_NULLPTR;}
-
-private:
-	ItemStateChanger() = delete;
-	ItemStateChanger(const ItemStateChanger& ) = delete;
-	Item* item_ = Q_NULLPTR;
+template<class Item, typename STRUCTDATA>
+struct ItemStateChanger : public BaseItemChanger<Item, STRUCTDATA>
+{
+	using Base = BaseItemChanger<Item, STRUCTDATA>;
+	ItemStateChanger(ItemStateChanger&& changer) : Base(std::forward(changer)){}
+	ItemStateChanger(Item& item) :Base(item) {}
+	~ItemStateChanger() {if (Base::item_) Base::item_->stateChanged();}
 };
 
 class ItemObserver;

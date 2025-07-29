@@ -1,5 +1,8 @@
 # Ramio changelog
 
+## 0.1.9a3 BaseItemChanger [29.07.2025]
+- Рефакторинг, базовый класс для ItemChanger и ItemStateChanger
+
 ## 0.1.9a2 ItemStateChanger [21.04.2025]
 - Новый сигнал stateChanged для уменьшения вызовов changing/changed
 - Новая структура ItemStateChanger для изменения переменных, отвечающих за состояние
