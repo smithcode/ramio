@@ -1,5 +1,8 @@
 # Ramio changelog
 
+## 0.1.9a4 Init warnings [11.09.2025]
+- Подправлены предупреждения неинициализированных переменных
+
 ## 0.1.9a3 BaseItemChanger [29.07.2025]
 - Рефакторинг, базовый класс для ItemChanger и ItemStateChanger
 

@@ -51,6 +51,7 @@ struct ItemChanger : public BaseItemChanger<Item, STRUCTDATA>
 	ItemChanger(ItemChanger&& changer) : Base(std::forward(changer)){}
 	ItemChanger(Item& item) : Base(item) {Base::item_->beforeChanging();}
 	~ItemChanger() {if (Base::item_) Base::item_->afterChanging();}
+	ItemChanger& operator= (ItemChanger&& other) noexcept { Base::item_ = other.item_; other.item_ = Q_NULLPTR; return *this;}
 };
 
 template<class Item, typename STRUCTDATA>
@@ -58,8 +59,9 @@ struct ItemStateChanger : public BaseItemChanger<Item, STRUCTDATA>
 {
 	using Base = BaseItemChanger<Item, STRUCTDATA>;
 	ItemStateChanger(ItemStateChanger&& changer) : Base(std::forward(changer)){}
-	ItemStateChanger(Item& item) :Base(item) {}
+	ItemStateChanger(Item& item) : Base(item) {}
 	~ItemStateChanger() {if (Base::item_) Base::item_->stateChanged();}
+	ItemStateChanger& operator= (ItemStateChanger&& other) noexcept { Base::item_ = other.item_; other.item_ = Q_NULLPTR; return *this;}
 };
 
 class ItemObserver;
