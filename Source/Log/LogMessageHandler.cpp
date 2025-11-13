@@ -16,6 +16,7 @@
  */
 
 #include "LogMessageHandler.h"
+#include "Logger.h"
 // Qt5
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDateTime>
@@ -43,6 +44,14 @@ void log2fileMessageHandler(QtMsgType type, const QMessageLogContext& context, c
 	outFile.close();
 	QTextStream out(typeDevice[type]);
 	out << txt;
+}
+
+void detectQtWarningMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+{
+	if (!msg.contains("[") && !msg.contains("]"))
+		qt_message_output(type, context, (RC_RED "[Qt] " RC_NC ) + msg);
+	else
+		qt_message_output(type, context, msg);
 }
 
 } // Ramio::

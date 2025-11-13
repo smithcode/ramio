@@ -23,8 +23,9 @@
 #ifdef QT_GUI_LIB
 #include <QtWidgets/QListWidget>
 #endif
-// C++ STL
-#include <iostream>
+
+#define BASE_LOG(str, ...) fprintf(stderr, str "\n", ##__VA_ARGS__)
+#define STR_LOG(str) BASE_LOG("%s", str)
 
 namespace Ramio {
 
@@ -55,7 +56,7 @@ Logger::~Logger() = default;
 
 void Logger::log(const QString& text)
 {
-	std::cout << qPrintable(text) << std::endl;
+	STR_LOG(qPrintable(text));
 }
 
 void Logger::ulog(const QString& text)

@@ -83,6 +83,7 @@ QString dbTypeFromMeta(Meta::Type type, SupportedDatabaseType dbtype)
 		case Meta::Type::PKeyList :
 		case Meta::Type::TypeList :
 		case Meta::Type::StringList : return "text";
+		case Meta::Type::JsonObject : return dbtype == SupportedDatabaseType::PostgreSQL ?  "jsonb" : "text";
 
 		case Meta::Type::MetaRecord :
 		case Meta::Type::MetaRecordPtr :

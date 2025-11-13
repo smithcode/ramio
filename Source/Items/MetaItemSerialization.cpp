@@ -797,13 +797,19 @@ void serialize(const Meta::Description& meta, const ItemData& data, QJsonObject&
 			if (options.keepEmptyValues || !value.isNull())
 				jsObject.insert(pr.protoname, QJsonValue(QString(value.toBase64())));
 		}
-		else if(pr.type == Meta::Type::StringList)
+		else if (pr.type == Meta::Type::StringList)
 		{
 			const auto& value = CAST_CONST_DATAREL_TO_TYPEREL(RMStringList);
 			QJsonArray jsSubArray;
 			for (auto str : value)
 				jsSubArray.append(QJsonValue(str));
 			jsObject.insert(pr.protoname, jsSubArray);
+		}
+		else if (pr.type == Meta::Type::JsonObject)
+		{
+			const auto& value = CAST_CONST_DATAREL_TO_TYPEREL(RMJsonObject);
+			if (options.keepEmptyValues || !value.isEmpty())
+				jsObject.insert(pr.protoname, value);
 		}
 		else if (pr.type == Meta::Type::Byte)
 		{
@@ -986,6 +992,11 @@ void deserialize(const Meta::Description& meta, ItemData& data, const QJsonObjec
 			QJsonArray jsSubArray = jsObject.value(pr.protoname).toArray();
 			for (const QJsonValue& subVal: jsSubArray)
 				value.append(subVal.toString());
+		}
+		else if (pr.type == Meta::Type::JsonObject)
+		{
+			auto& value = CAST_DATAREL_TO_TYPEREL(RMJsonObject);
+			value = jsObject.value(pr.protoname).toObject();
 		}
 		else if (pr.type == Meta::Type::Byte)
 		{

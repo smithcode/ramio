@@ -23,6 +23,8 @@
 #include <Sets/Arg.h>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDateTime>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlRecord>
@@ -253,6 +255,8 @@ void updateItemDataFromQVariant(const Meta::Property& pr, const QVariant& fvalue
 		CAST_DATAREL_TO_TYPEREL(RMString) = fvalue.toString();
 	else if (pr.type == Meta::Type::StringList)
 		CAST_DATAREL_TO_TYPEREL(RMStringList) = fvalue.toString().split("\n", Qt_SkipEmptyParts);
+	else if (pr.type == Meta::Type::JsonObject)
+		CAST_DATAREL_TO_TYPEREL(RMJsonObject) = QJsonDocument::fromJson(fvalue.toByteArray()).object(); //check .toJsonObject();
 	else if (pr.type == Meta::Type::Float)
 		CAST_DATAREL_TO_TYPEREL(RMFloat) = fvalue.toFloat();
 	else if (pr.type == Meta::Type::Double)
@@ -539,6 +543,8 @@ void DatabaseConnection::bindQueryValues(const ItemData& data, SqlQuery& query, 
 			query.addBindValue(fieldName, CAST_CONST_DATAREL_TO_TYPEREL(RMString));
 		else if (pr.type == Meta::Type::StringList)
 			query.addBindValue(fieldName, CAST_CONST_DATAREL_TO_TYPEREL(RMStringList).join("\n"));
+		else if (pr.type == Meta::Type::JsonObject)
+			query.addBindValue(fieldName, QString(QJsonDocument(CAST_CONST_DATAREL_TO_TYPEREL(RMJsonObject)).toJson(QJsonDocument::Compact)));
 		else if (pr.type == Meta::Type::Uuid)
 			query.addBindValue(fieldName, CAST_CONST_DATAREL_TO_TYPEREL(RMUuid).toString(QUuid::WithoutBraces));
 		else if (pr.type == Meta::Type::Time)

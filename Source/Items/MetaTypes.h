@@ -45,17 +45,25 @@
 #define RMDateTime QDateTime
 #define RMByteArray QByteArray
 #define RMStringList QStringList
-
+#define RMJsonObject QJsonObject
 #define RMByte quint8
 #define RMMoney float
 
 #define RMPKey qint64
 #define RMType short int
-using RMEnum = RMType;
 #define RMState short int
 #define RMFlags unsigned int
 #define RMPKeyList QList<RMPKey>
 #define RMTypeList QList<RMType>
+
+namespace Ramio { struct MetaItemData; }
+
+#define RMRecord Ramio::MetaItemData
+#define RMRecordPrtList QList<Ramio::MetaItemData*>
+
+
+
+using RMEnum = RMType;
 
 namespace Ramio {
 namespace Meta {
@@ -84,6 +92,7 @@ enum class Type : quint8
 	DateTime,
 	ByteArray,
 	StringList,
+	JsonObject,
 //
 	Byte,
 	Money,
@@ -123,6 +132,7 @@ template<> struct RMetaType<Type::Date> {using type = RMDate;};
 template<> struct RMetaType<Type::DateTime> {using type = RMDateTime;};
 template<> struct RMetaType<Type::ByteArray> {using type = RMByteArray;};
 template<> struct RMetaType<Type::StringList> {using type = RMStringList;};
+template<> struct RMetaType<Type::JsonObject> {using type = RMJsonObject;};
 template<> struct RMetaType<Type::Byte> {using type = RMByte;};
 template<> struct RMetaType<Type::Money> {using type = RMMoney;};
 template<> struct RMetaType<Type::PKey> {using type = RMPKey;};
@@ -131,6 +141,10 @@ template<> struct RMetaType<Type::State> {using type = RMState;};
 template<> struct RMetaType<Type::Flags> {using type = RMFlags;};
 template<> struct RMetaType<Type::PKeyList> {using type = RMPKeyList;};
 template<> struct RMetaType<Type::TypeList> {using type = RMTypeList;};
+template<> struct RMetaType<Type::MetaRecord> {using type = RMRecord;};
+template<> struct RMetaType<Type::MetaRecordPrtList> {using type = RMRecordPrtList;};
+
+
 
 
 template<Type rtype> QString valueToString(const typename RMetaType<rtype>::type& value);

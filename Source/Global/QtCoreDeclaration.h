@@ -12,6 +12,7 @@ class QUuid;
 class QDomElement;
 class QDomDocument;
 class QDomNode;
+class QJsonObject;
 class QHostAddress;
 class QTimer;
 

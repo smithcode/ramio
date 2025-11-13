@@ -20,6 +20,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
+#include <QtCore/QJsonObject>
 
 #define CAST_CONST_DATA1REL_TO_TYPEREL(type) CAST_FIELDREL_BASE(data1, type, pr.diff, const)
 #define CAST_CONST_DATA2REL_TO_TYPEREL(type) CAST_FIELDREL_BASE(data2, type, pr.diff, const)
@@ -277,6 +278,8 @@ void copyData(const Description& meta, const Data& data1, Data& data2)
 				CAST_FIELDREL_BASE(data2, RMByteArray, pr.diff,) = CAST_FIELDREL_BASE(data1, RMByteArray, pr.diff, const); break;
 		case Ramio::Meta::Type::StringList:
 				CAST_FIELDREL_BASE(data2, RMStringList, pr.diff,) = CAST_FIELDREL_BASE(data1, RMStringList, pr.diff, const); break;
+		case Ramio::Meta::Type::JsonObject:
+				CAST_FIELDREL_BASE(data2, RMJsonObject, pr.diff,) = CAST_FIELDREL_BASE(data1, RMJsonObject, pr.diff, const); break;
 		case Ramio::Meta::Type::Byte:
 				CAST_FIELDREL_BASE(data2, RMByte, pr.diff,) = CAST_FIELDREL_BASE(data1, RMByte, pr.diff, const); break;
 		case Ramio::Meta::Type::Money:

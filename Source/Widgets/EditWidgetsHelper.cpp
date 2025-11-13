@@ -32,6 +32,8 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
 
 namespace Ramio {
 
@@ -85,7 +87,7 @@ QWidget* createEditWidget(const Meta::Description& meta, const Meta::Property& p
 	}
 	else if (pr.type == Meta::Type::StdString || pr.type == Meta::Type::String)
 		return new QLineEdit(parent);
-	else if (pr.type == Meta::Type::StringList)
+	else if (pr.type == Meta::Type::StringList || pr.type == Meta::Type::JsonObject)
 		return new QTextEdit(parent);
 	else if (pr.type == Meta::Type::Double || pr.type == Meta::Type::Float)
 	{
@@ -195,6 +197,8 @@ void updateEditWidgetFromData(const Data& data, const Meta::Property& pr, const 
 		static_cast<QLineEdit*>(widget)->setText(CAST_CONST_DATAREL_TO_TYPEREL(RMString));
 	else if (pr.type == Meta::Type::StringList)
 		static_cast<QTextEdit*>(widget)->setText(CAST_CONST_DATAREL_TO_TYPEREL(RMStringList).join("\n"));
+	else if (pr.type == Meta::Type::JsonObject)
+		static_cast<QTextEdit*>(widget)->setText(QJsonDocument(CAST_CONST_DATAREL_TO_TYPEREL(RMJsonObject)).toJson(QJsonDocument::Indented));
 	else if (pr.type == Meta::Type::Time)
 		static_cast<QTimeEdit*>(widget)->setTime(CAST_CONST_DATAREL_TO_TYPEREL(RMTime));
 	else if (pr.type == Meta::Type::Date)

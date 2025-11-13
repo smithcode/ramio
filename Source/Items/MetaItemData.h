@@ -41,9 +41,9 @@ QString cameCaseFirstChar(const QString& str);
 
 #ifdef RAMIO_CHECK_OBJ_FIELD_TYPE
 #define RMETA_DATA_PROPERTY(name, rmtype, protoname, prettyname, relationtype, special) \
-	static_assert(std::is_same<decltype(name), Ramio::Meta::RMetaType<Ramio::Meta::Type::rmtype>::type>::value); \
+	static_assert(std::is_same<std::remove_reference_t<decltype(name)>, Ramio::Meta::RMetaType<Ramio::Meta::Type::rmtype>::type>::value); \
 	res.append(Ramio::Meta::Property( \
-	ptrdiff_t(reinterpret_cast<const std::byte*>(&name)-reinterpret_cast<const std::byte*>(static_cast<const Ramio::Data*>(this))),\
+	ptrdiff_t(reinterpret_cast<const std::byte*>(&(name))-reinterpret_cast<const std::byte*>(static_cast<const Ramio::Data*>(this))),\
 	quint8(sizeof(name)), QStringLiteral(#name), Ramio::Meta::Type::rmtype, \
 	protoname, prettyname, Ramio::Meta::FieldRole::relationtype, special));
 #else
@@ -63,6 +63,30 @@ QString cameCaseFirstChar(const QString& str);
 #define RMETA_DATA_FIELD(name, type, prettyname) \
 	RMETA_DATA_PROPERTY(name, type, #name, prettyname, Field, QString())
 
+#define RMETA_DATA_FIELD_Type(fieldname, prettyname) \
+	RMETA_DATA_PROPERTY(*const_cast<RMType*>(reinterpret_cast<const RMType*>(&fieldname)), Type, #fieldname, prettyname, Field, QString()) \
+	res.last().name = #fieldname;
+
+#define RMETA_DATA_VALUE_Type(fieldname, prettyname) \
+	RMETA_DATA_PROPERTY(*const_cast<RMType*>(reinterpret_cast<const RMType*>(&fieldname)), Type, #fieldname, prettyname, Value, QString()) \
+	res.last().name = #fieldname;
+
+#define RMETA_DATA_FIELD_MetaRecord(fieldname, prettyname) \
+	RMETA_DATA_PROPERTY(*const_cast<RMRecord*>(reinterpret_cast<const RMRecord*>(&fieldname)), MetaRecord, #fieldname, prettyname, Field, QString()) \
+	res.last().name = #fieldname;
+
+#define RMETA_DATA_VALUE_MetaRecord(fieldname, prettyname) \
+	RMETA_DATA_PROPERTY(*const_cast<RMRecord*>(reinterpret_cast<const RMRecord*>(&fieldname)), MetaRecord, #fieldname, prettyname, Value, QString()) \
+	res.last().name = #fieldname;
+
+#define RMETA_DATA_FIELD_RecordPrtList(fieldname, prettyname) \
+	RMETA_DATA_PROPERTY(*const_cast<RMRecordPrtList*>(reinterpret_cast<const RMRecordPrtList*>(&fieldname)), MetaRecordPrtList, #fieldname, prettyname, Field, QString()) \
+	res.last().name = #fieldname;
+
+#define RMETA_DATA_VALUE_RecordPrtList(fieldname, prettyname) \
+	RMETA_DATA_PROPERTY(*const_cast<RMRecordPrtList*>(reinterpret_cast<const RMRecordPrtList*>(&fieldname)), MetaRecordPrtList, #fieldname, prettyname, Value, QString()) \
+	res.last().name = #fieldname;
+
 #define RMETA_DATA_FIELD_C(name, type, prettyname) \
 	RMETA_DATA_PROPERTY(name, type, cameCaseFirstChar(#name), prettyname, Field, QString())
 
@@ -80,6 +104,12 @@ QString cameCaseFirstChar(const QString& str);
 	(&ItemDataStruct::name)).dif; \
 	res.append(Ramio::Meta::Property(diffnk, quint8(sizeof(ptrdiff_t)), QStringLiteral(#name), Ramio::Meta::Type::type, \
 	QStringLiteral(protoname), prettyname, Ramio::Meta::FieldRole::Function));}
+
+// ---
+
+#define RMETA_TYPE(fieldname, prettyname) \
+	RMETA_DATA_PROPERTY(*const_cast<RMType*>(reinterpret_cast<const RMType*>(&fieldname)), Type, #fieldname, prettyname, Type, QString()) \
+	res.last().name = #fieldname;
 
 #define RMETA_DATA_BEGIN \
 	RMETA_DATA_START(Ramio::MetaItemData)
