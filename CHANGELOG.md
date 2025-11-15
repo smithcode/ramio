@@ -1,5 +1,8 @@
 # Ramio changelog
 
+## 0.1.10a RMJsonObject++ [16.11.2025]
+- Продолжение работы над RMJsonObject
+
 ## 0.1.10 RMJsonObject [13.11.2025]
 - Новый тип QJsonObject, хранение в БД как jsonb
 

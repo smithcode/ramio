@@ -242,11 +242,11 @@ void updateDataFromEditWidget(Data& data, const Meta::Property& pr, const Abstra
 		auto& value = CAST_DATAREL_TO_TYPEREL(RMInt);
 		if (set && set->meta().typeDescription && set->meta().typeDescription->fixedTypeCount)
 		{
-				int index = static_cast<const QComboBox*>(widget)->currentIndex();
-				if (index < set->meta().typeDescription->supportedTypes().count() && index >= 0)
-					value = set->meta().typeDescription->supportedTypes()[index];
-				else
-					value = 0;
+			int index = static_cast<const QComboBox*>(widget)->currentIndex();
+			if (index < set->meta().typeDescription->supportedTypes().count() && index >= 0)
+				value = set->meta().typeDescription->supportedTypes()[index];
+			else
+				value = 0;
 		}
 		else
 			value = static_cast<const QSpinBox*>(widget)->value();
@@ -277,6 +277,8 @@ void updateDataFromEditWidget(Data& data, const Meta::Property& pr, const Abstra
 		CAST_DATAREL_TO_TYPEREL(RMString) = static_cast<const QLineEdit*>(widget)->text();
 	else if (pr.type == Meta::Type::StringList)
 		CAST_DATAREL_TO_TYPEREL(RMStringList) = static_cast<const QTextEdit*>(widget)->toPlainText().split("\n", Qt_SkipEmptyParts);
+	else if (pr.type == Meta::Type::JsonObject)
+		CAST_DATAREL_TO_TYPEREL(RMJsonObject) = QJsonDocument::fromJson(static_cast<const QTextEdit*>(widget)->toPlainText().toLocal8Bit()).object();
 	else if (pr.type == Meta::Type::Time)
 		CAST_DATAREL_TO_TYPEREL(RMTime) = static_cast<const QTimeEdit*>(widget)->time();
 	else if (pr.type == Meta::Type::Date)

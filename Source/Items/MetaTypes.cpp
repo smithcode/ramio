@@ -18,6 +18,8 @@
 #include "MetaTypes.h"
 #include <QtCore/QUuid>
 #include <QtCore/QDateTime>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
 #include <QStringBuilder>
 
 namespace Ramio {
@@ -40,6 +42,7 @@ QString typeName(Type type)
 		case Type::StdString : return "StdString";
 		case Type::String : return "String";
 		case Type::StringList : return "StringList";
+		case Type::JsonObject : return "JsonObject";
 		case Type::Uuid : return "Uuid";
 		case Type::Time : return "Time";
 		case Type::Date : return "Date";
@@ -79,6 +82,7 @@ template<> QString valueToString<Type::Date>(const RMDate& value)  { return valu
 template<> QString valueToString<Type::DateTime>(const RMDateTime& value)  { return value.toString(Qt::ISODateWithMs); }
 template<> QString valueToString<Type::ByteArray>(const RMByteArray& value)  { return QString(value.toHex()); }
 template<> QString valueToString<Type::StringList>(const RMStringList& value)  { return "{" % value.join(",\n") % "}"; }
+template<> QString valueToString<Type::JsonObject>(const RMJsonObject& value)  { return QJsonDocument(value).toJson(QJsonDocument::Compact); }
 template<> QString valueToString<Type::Byte>(const RMByte& value) { return QString::number(value); }
 template<> QString valueToString<Type::Money>(const RMMoney& value)  {
 	return QString::number((value+(value > 0 ? 1 : -1)*0.000001), 'f', 2);}
@@ -110,6 +114,7 @@ QString valueToString(Type type, const void* value)
 		V2STR_CASE(DateTime)
 		V2STR_CASE(ByteArray)
 		V2STR_CASE(StringList)
+		V2STR_CASE(JsonObject)
 		V2STR_CASE(Byte)
 		V2STR_CASE(Money)
 		V2STR_CASE(PKey)
