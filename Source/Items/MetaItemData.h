@@ -64,11 +64,17 @@ QString cameCaseFirstChar(const QString& str);
 	RMETA_DATA_PROPERTY(name, type, #name, prettyname, Field, QString())
 
 #define RMETA_DATA_FIELD_Type(fieldname, prettyname) \
+	_Pragma("GCC diagnostic push") \
+	_Pragma("GCC diagnostic ignored \"-Wstrict-aliasing\"") \
 	RMETA_DATA_PROPERTY(*const_cast<RMType*>(reinterpret_cast<const RMType*>(&fieldname)), Type, #fieldname, prettyname, Field, QString()) \
+	_Pragma("GCC diagnostic pop") \
 	res.last().name = #fieldname;
 
 #define RMETA_DATA_VALUE_Type(fieldname, prettyname) \
+	_Pragma("GCC diagnostic push") \
+	_Pragma("GCC diagnostic ignored \"-Wstrict-aliasing\"") \
 	RMETA_DATA_PROPERTY(*const_cast<RMType*>(reinterpret_cast<const RMType*>(&fieldname)), Type, #fieldname, prettyname, Value, QString()) \
+	_Pragma("GCC diagnostic pop") \
 	res.last().name = #fieldname;
 
 #define RMETA_DATA_FIELD_MetaRecord(fieldname, prettyname) \
@@ -80,11 +86,17 @@ QString cameCaseFirstChar(const QString& str);
 	res.last().name = #fieldname;
 
 #define RMETA_DATA_FIELD_RecordPrtList(fieldname, prettyname) \
+	_Pragma("GCC diagnostic push") \
+	_Pragma("GCC diagnostic ignored \"-Wstrict-aliasing\"") \
 	RMETA_DATA_PROPERTY(*const_cast<RMRecordPrtList*>(reinterpret_cast<const RMRecordPrtList*>(&fieldname)), MetaRecordPrtList, #fieldname, prettyname, Field, QString()) \
+	_Pragma("GCC diagnostic pop") \
 	res.last().name = #fieldname;
 
 #define RMETA_DATA_VALUE_RecordPrtList(fieldname, prettyname) \
+	_Pragma("GCC diagnostic push") \
+	_Pragma("GCC diagnostic ignored \"-Wstrict-aliasing\"") \
 	RMETA_DATA_PROPERTY(*const_cast<RMRecordPrtList*>(reinterpret_cast<const RMRecordPrtList*>(&fieldname)), MetaRecordPrtList, #fieldname, prettyname, Value, QString()) \
+	_Pragma("GCC diagnostic pop") \
 	res.last().name = #fieldname;
 
 #define RMETA_DATA_FIELD_C(name, type, prettyname) \
@@ -108,7 +120,10 @@ QString cameCaseFirstChar(const QString& str);
 // ---
 
 #define RMETA_TYPE(fieldname, prettyname) \
+	_Pragma("GCC diagnostic push") \
+	_Pragma("GCC diagnostic ignored \"-Wstrict-aliasing\"") \
 	RMETA_DATA_PROPERTY(*const_cast<RMType*>(reinterpret_cast<const RMType*>(&fieldname)), Type, #fieldname, prettyname, Type, QString()) \
+	_Pragma("GCC diagnostic pop") \
 	res.last().name = #fieldname;
 
 #define RMETA_DATA_BEGIN \

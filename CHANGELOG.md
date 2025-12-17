@@ -1,5 +1,8 @@
 # Ramio changelog
 
+## 0.1.10b -fno-strict-aliasing [18.12.2025]
+- Отключены предупреждения -Wstrict-aliasing
+
 ## 0.1.10a RMJsonObject++ [16.11.2025]
 - Продолжение работы над RMJsonObject
 
