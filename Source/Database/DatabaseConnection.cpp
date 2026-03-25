@@ -262,13 +262,13 @@ void updateItemDataFromQVariant(const Meta::Property& pr, const QVariant& fvalue
 	else if (pr.type == Meta::Type::Double)
 		CAST_DATAREL_TO_TYPEREL(RMDouble) = fvalue.toDouble();
 	else if (pr.type == Meta::Type::Uuid)
-		CAST_DATAREL_TO_TYPEREL(RMUuid) = fvalue.toUuid(); // RMUuid(fvalue.toString());
+		CAST_DATAREL_TO_TYPEREL(RMUuid) = fvalue.toUuid();
 	else if (pr.type == Meta::Type::Time)
-		CAST_DATAREL_TO_TYPEREL(RMTime) = fvalue.toTime(); // RMTime::fromString(fvalue.toString(), Qt::ISODateWithMs);
+		CAST_DATAREL_TO_TYPEREL(RMTime) = fvalue.toTime();
 	else if (pr.type == Meta::Type::Date)
-		CAST_DATAREL_TO_TYPEREL(RMDate) = fvalue.toDate(); // RMDate::fromString(fvalue.toString(), Qt::ISODate);
+		CAST_DATAREL_TO_TYPEREL(RMDate) = fvalue.toDate();
 	else if (pr.type == Meta::Type::DateTime)
-		CAST_DATAREL_TO_TYPEREL(RMDateTime) = fvalue.toDateTime(); // RMDateTime::fromString(fvalue.toString(), Qt::ISODateWithMs);
+		CAST_DATAREL_TO_TYPEREL(RMDateTime) = fvalue.toDateTime();
 	else if (pr.type == Meta::Type::ByteArray)
 		CAST_DATAREL_TO_TYPEREL(RMByteArray) = QByteArray::fromHex(fvalue.toByteArray());
 	else if (pr.type == Meta::Type::Byte)
@@ -552,7 +552,7 @@ void DatabaseConnection::bindQueryValues(const ItemData& data, SqlQuery& query, 
 		else if (pr.type == Meta::Type::Date)
 			query.addBindValue(fieldName, CAST_CONST_DATAREL_TO_TYPEREL(RMDate).toString(Qt::ISODate));
 		else if (pr.type == Meta::Type::DateTime)
-			query.addBindValue(fieldName, CAST_CONST_DATAREL_TO_TYPEREL(RMDateTime).toString(Qt::ISODateWithMs));
+			query.addBindValue(fieldName, CAST_CONST_DATAREL_TO_TYPEREL(RMDateTime).toUTC().toString(Qt::ISODateWithMs));
 		else if (pr.type == Meta::Type::ByteArray)
 			query.addBindValue(fieldName, CAST_CONST_DATAREL_TO_TYPEREL(RMByteArray));
 		else if (pr.type == Meta::Type::Byte)

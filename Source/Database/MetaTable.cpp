@@ -76,7 +76,7 @@ QString dbTypeFromMeta(Meta::Type type, SupportedDatabaseType dbtype)
 		case Meta::Type::Uuid : return dbtype == SupportedDatabaseType::PostgreSQL ? "uuid" : "text";
 		case Meta::Type::Time : return "time";
 		case Meta::Type::Date : return "date";
-		case Meta::Type::DateTime : return "timestamp";
+		case Meta::Type::DateTime : return "timestamptz";
 		case Meta::Type::ByteArray : return "bytea";
 		case Meta::Type::Money : return "decimal(16, 2)"; // money
 
