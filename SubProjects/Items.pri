@@ -12,6 +12,7 @@ HEADERS += \
 	$$PWD/../Source/Items/ItemSet.inl \
 	$$PWD/../Source/Items/ItemWatcher.h \
 	$$PWD/../Source/Items/MetaItemData.h \
+	$$PWD/../Source/Items/MetaItemDataC.h \
 	$$PWD/../Source/Items/MetaItemSet.h \
 	$$PWD/../Source/Items/MetaItemSet.inl \
 	$$PWD/../Source/Items/StructItem.h \
@@ -49,4 +50,5 @@ SOURCES += \
 	$$PWD/../Source/Items/MetaDescription.cpp \
 	$$PWD/../Source/Items/MetaTypes.cpp \
 	$$PWD/../Source/Items/MetaItemSerialization.cpp \
-	$$PWD/../Source/Items/ReflItems.cpp
+	$$PWD/../Source/Items/ReflItems.cpp \
+	$$PWD/../Source/Items/MetaStandardItems.cpp \

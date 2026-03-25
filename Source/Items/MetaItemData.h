@@ -99,14 +99,8 @@ QString cameCaseFirstChar(const QString& str);
 	_Pragma("GCC diagnostic pop") \
 	res.last().name = #fieldname;
 
-#define RMETA_DATA_FIELD_C(name, type, prettyname) \
-	RMETA_DATA_PROPERTY(name, type, cameCaseFirstChar(#name), prettyname, Field, QString())
-
 #define RMETA_DATA_FKEY_ID(name, prettyname) \
 	RMETA_DATA_PROPERTY(name, PKey, #name, prettyname, FKey, "id")
-
-#define RMETA_DATA_FKEY_ID_C(name, prettyname) \
-	RMETA_DATA_PROPERTY(name, PKey, cameCaseFirstChar(#name), prettyname, FKey, "id")
 
 #define RMETA_DATA_VALUE(name, type, prettyname) \
 	RMETA_DATA_PROPERTY(name, type, #name, prettyname, Value, QString())
@@ -170,21 +164,6 @@ struct RAMIO_LIB_EXPORT MetaItemData : public BaseItemData, public AbstractMetaI
 	}
 	QString valueToString(quint8 index, const Meta::Description& meta);
 };
-
-struct RAMIO_LIB_EXPORT MetaStandardItemData : public MetaItemData
-{
-	using Base = MetaItemData;
-
-	RMUuid uuid;
-	RMType type = 0;
-	RMState state = 0;
-	RMFlags flags = 0;
-
-	void createUuidIfNull() {if (uuid.isNull()) uuid = QUuid::createUuid();}
-
-	QVector<Meta::Property> registerMetaFields() const Q_DECL_OVERRIDE;
-};
-
 
 template<typename BASEMETAITEMDATA, typename EXTENDEDTDATA>
 struct ExtendedItemData : public BASEMETAITEMDATA

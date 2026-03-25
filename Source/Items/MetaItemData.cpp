@@ -30,8 +30,8 @@ namespace Ramio {
 QVector<Meta::Property> MetaItemData::registerMetaFields() const
 {
 	QVector<Meta::Property> res;
-	RMETA_DATA_PROPERTY(id, PKey, "Id", QObject::tr("Идентификатор"), PKey, QString())
-			return res;
+	RMETA_DATA_PROPERTY(id, PKey, "id", QObject::tr("Идентификатор"), PKey, QString())
+	return res;
 }
 
 QString MetaItemData::valueToString(quint8 index, const Meta::Description& meta)
@@ -39,16 +39,6 @@ QString MetaItemData::valueToString(quint8 index, const Meta::Description& meta)
 	return Meta::valueToString(meta.properties[index].type, &field<RMByte>(meta.properties[index].diff));
 }
 
-QVector<Meta::Property> MetaStandardItemData::registerMetaFields() const
-{
-	QVector<Meta::Property> res;
-	RMETA_DATA_PROPERTY(id, PKey, "Id", QObject::tr("Идентификатор"), PKey, QString())
-	RMETA_DATA_PROPERTY(uuid, Uuid, "Uuid", QObject::tr("Глобальный идентификатор"), Field, QString())
-	RMETA_DATA_PROPERTY(type, Type, "Type", QObject::tr("Тип"), Type, QString())
-	RMETA_DATA_PROPERTY(state, State , "State", QObject::tr("Состояние"), Value, QString())
-	RMETA_DATA_PROPERTY(flags, Flags, "Flags", QObject::tr("Флаги"), Value, QString())
-	return res;
-}
 
 namespace Meta {
 

@@ -19,6 +19,23 @@
 
 #include "MetaStandardItemSet.h"
 
+namespace Ramio {
+
+struct RAMIO_LIB_EXPORT MetaStandardItemData : public MetaItemData
+{
+	using Base = MetaItemData;
+
+	RMUuid uuid;
+	RMType type = 0;
+	RMState state = 0;
+	RMFlags flags = 0;
+
+	void createUuidIfNull() {if (uuid.isNull()) uuid = QUuid::createUuid();}
+
+	QVector<Meta::Property> registerMetaFields() const Q_DECL_OVERRIDE;
+};
+
+}
 
 // STANDARD CLASS [full]
 

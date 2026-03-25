@@ -1,5 +1,9 @@
 # Ramio changelog
 
+## 0.1.11 id to lowercase [25.03.2026]
+- Рефакторинг
+- Сериализация id в нижнем регистре
+
 ## 0.1.10b -fno-strict-aliasing [18.12.2025]
 - Отключены предупреждения -Wstrict-aliasing
 
